@@ -10,7 +10,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.util.StringUtils;
 
-@Route
+@Route("items")
 public class MainView extends VerticalLayout {
 
 	private final ItemRepository repo;
@@ -28,7 +28,7 @@ public class MainView extends VerticalLayout {
 		this.editor = editor;
 		this.grid = new Grid<>(Item.class);
 		this.filter = new TextField();
-		this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
+		this.addNewBtn = new Button("New item", VaadinIcon.PLUS.create());
 
 		// build layout
 		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);

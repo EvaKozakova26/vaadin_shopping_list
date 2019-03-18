@@ -15,7 +15,7 @@ public class Item {
 	private int id;
 	private String name;
 	private Timestamp createdAt;
-	private int count;
+	private double count;
 	private boolean state;
 
 	public int getId() {
@@ -42,11 +42,11 @@ public class Item {
 		this.createdAt = createdAt;
 	}
 
-	public int getCount() {
+	public double getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(double count) {
 		this.count = count;
 	}
 

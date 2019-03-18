@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -35,6 +36,7 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 
 	/* Fields to edit properties in Item entity */
 	TextField name = new TextField("name");
+	NumberField count = new NumberField("count");
 
 
 	/* Action buttons */
@@ -51,7 +53,7 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	public ItemEditor(ItemRepository repository) {
 		this.repository = repository;
 
-		add(name, actions);
+		add(name, count, actions);
 
 		// bind using naming convention
 		binder.bindInstanceFields(this);
@@ -79,7 +81,6 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	void save() {
 		item.setState(false);
 		item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		item.setCount(3);
 		repository.save(item);
 		changeHandler.onChange();
 	}
@@ -93,6 +94,7 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 			setVisible(false);
 			return;
 		}
+		//TODO najit v databazi
 		final boolean persisted = false;
 		if (persisted) {
 			// Find fresh entity for editing
@@ -107,11 +109,10 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 		// Could also use annotation or "manual binding" or programmatically
 		// moving values from fields to entities before saving
 		binder.setBean(item);
-
 		setVisible(true);
-
 		// Focus first name initially
 		name.focus();
+
 	}
 
 	public void setChangeHandler(ChangeHandler h) {

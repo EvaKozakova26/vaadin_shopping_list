@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <vaadin.version>13.0.1</vaadin.version>
     </properties>
 
     <dependencies>
@@ -68,7 +69,11 @@
         <dependency>
             <groupId>org.vaadin.spring.addons</groupId>
             <artifactId>numberfield</artifactId>
-            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-core</artifactId>
         </dependency>
     </dependencies>
 
@@ -78,7 +83,7 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
-                <version>10.0.11</version>
+                <version>${vaadin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
