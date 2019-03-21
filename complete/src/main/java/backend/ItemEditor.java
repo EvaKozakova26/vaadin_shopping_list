@@ -1,5 +1,6 @@
-package hello;
+package backend;
 
+import backend.model.Item;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;

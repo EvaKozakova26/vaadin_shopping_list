@@ -1,5 +1,6 @@
-package hello;
+package backend;
 
+import backend.model.Item;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;

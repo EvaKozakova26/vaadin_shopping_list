@@ -1,8 +1,9 @@
-package hello;
+package backend;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.then;
 
+import backend.model.Item;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

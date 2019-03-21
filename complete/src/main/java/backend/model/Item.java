@@ -1,13 +1,11 @@
-package hello;
+package backend.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "item", schema = "demo")
+@Table(name = "items", schema = "demo")
 public class Item {
 
 	@Id
@@ -17,6 +15,9 @@ public class Item {
 	private Timestamp createdAt;
 	private double count;
 	private boolean state;
+
+	@ManyToOne
+	private ShoppingList shoppingList;
 
 	public int getId() {
 		return id;
