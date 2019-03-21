@@ -1,4 +1,4 @@
-package backend;
+package backend.repository;
 
 import backend.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +10,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Item> findByName(String lastName);
 
 	Item findById(int id);
+
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import backend.model.Item;
+import backend.services.ItemService;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.server.VaadinRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import org.mockito.Mockito;
 public class MainViewTests {
 
 	@Autowired
-    ItemRepository repository;
+	backend.services.ItemService itemService;
 
 	VaadinRequest vaadinRequest = Mockito.mock(VaadinRequest.class);
 
@@ -36,16 +37,16 @@ public class MainViewTests {
 
 	@Before
 	public void setup() {
-		this.editor = new ItemEditor(this.repository);
-		this.mainView = new MainView(this.repository, editor);
+		this.editor = new ItemEditor(this.itemService);
+		this.mainView = new MainView(this.itemService, editor);
 	}
 
 	@Test
 	public void shouldInitializeTheGridWithCustomerRepositoryData() {
-		int customerCount = (int) this.repository.count();
+	/*	//int customerCount = (int) this.itemService.count();
 
 		then(mainView.grid.getColumns()).hasSize(3);
-		then(getCustomersInGrid()).hasSize(customerCount);
+		then(getCustomersInGrid()).hasSize(customerCount);*/
 	}
 
 	private List<Item> getCustomersInGrid() {
@@ -55,7 +56,7 @@ public class MainViewTests {
 
 	@Test
 	public void shouldFillOutTheGridWithNewData() {
-		/*int initialCustomerCount = (int) this.repository.count();
+		/*int initialCustomerCount = (int) this.itemService.count();
 
 		customerDataWasFilled(editor, "Marcin", "Grzejszczak");
 
@@ -72,7 +73,7 @@ public class MainViewTests {
 	@Test
 	public void shouldFilterOutTheGridWithTheProvidedLastName() {
 
-	/*	this.repository.save(new Item("Josh", "Long"));
+	/*	this.itemService.save(new Item("Josh", "Long"));
 
 		mainView.listItems("Long");
 
@@ -108,15 +109,15 @@ public class MainViewTests {
 	static class Config {
 
 		@Autowired
-        ItemRepository repository;
+		ItemService service;
 
 		@PostConstruct
 		public void initializeData() {
-			/*this.repository.save(new Item("Jack", "Bauer"));
-			this.repository.save(new Item("Chloe", "O'Brian"));
-			this.repository.save(new Item("Kim", "Bauer"));
-			this.repository.save(new Item("David", "Palmer"));
-			this.repository.save(new Item("Michelle", "Dessler"));*/
+			/*this.itemService.save(new Item("Jack", "Bauer"));
+			this.itemService.save(new Item("Chloe", "O'Brian"));
+			this.itemService.save(new Item("Kim", "Bauer"));
+			this.itemService.save(new Item("David", "Palmer"));
+			this.itemService.save(new Item("Michelle", "Dessler"));*/
 		}
 	}
 }

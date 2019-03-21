@@ -1,6 +1,7 @@
 package backend;
 
 import backend.model.Item;
+import backend.services.ItemService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -14,7 +15,7 @@ import org.springframework.util.StringUtils;
 @Route("items")
 public class MainView extends VerticalLayout {
 
-	private final ItemRepository repo;
+	private final ItemService itemService;
 
 	private final ItemEditor editor;
 
@@ -24,8 +25,8 @@ public class MainView extends VerticalLayout {
 
 	private final Button addNewBtn;
 
-	public MainView(ItemRepository repo, ItemEditor editor) {
-		this.repo = repo;
+	public MainView(ItemService itemService, ItemEditor editor) {
+		this.itemService = itemService;
 		this.editor = editor;
 		this.grid = new Grid<>(Item.class);
 		this.filter = new TextField();
@@ -68,10 +69,10 @@ public class MainView extends VerticalLayout {
 	// tag::listItems[]
 	void listItems(String filterText) {
 		if (StringUtils.isEmpty(filterText)) {
-			grid.setItems(repo.findAll());
+			grid.setItems(itemService.findAllItems());
 		}
 		else {
-			grid.setItems(repo.findByName(filterText));
+			grid.setItems(itemService.findByName(filterText));
 		}
 	}
 	// end::listItems[]

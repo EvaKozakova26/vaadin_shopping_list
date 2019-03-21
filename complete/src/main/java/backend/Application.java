@@ -1,6 +1,7 @@
 package backend;
 
 import backend.model.Item;
+import backend.services.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ public class Application {
 	}
 
 	@Bean
-	public CommandLineRunner loadData(ItemRepository repository) {
+	public CommandLineRunner loadData(ItemService service) {
 		return (args) -> {
 			// save a couple of customers
 			Item item = new Item();
@@ -28,7 +29,7 @@ public class Application {
 			item.setCreatedAt(null);
 			item.setState(false);
 
-			repository.save(item);
+			service.saveItem(item);
 
 
 			/*// fetch all customers

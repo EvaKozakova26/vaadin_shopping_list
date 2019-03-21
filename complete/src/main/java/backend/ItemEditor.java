@@ -1,6 +1,7 @@
 package backend;
 
 import backend.model.Item;
+import backend.services.ItemService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
@@ -28,7 +29,7 @@ import java.sql.Timestamp;
 @UIScope
 public class ItemEditor extends VerticalLayout implements KeyNotifier {
 
-	private final ItemRepository repository;
+	private final ItemService itemService;
 
 	/**
 	 * The currently edited item
@@ -42,17 +43,17 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 
 	/* Action buttons */
 	// TODO why more code?
-	Button save = new Button("Save", VaadinIcon.CHECK.create());
-	Button cancel = new Button("Cancel");
-	Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-	HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+	private Button save = new Button("Save", VaadinIcon.CHECK.create());
+	private Button cancel = new Button("Cancel");
+	private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+	private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
-	Binder<Item> binder = new Binder<>(Item.class);
+	private Binder<Item> binder = new Binder<>(Item.class);
 	private ChangeHandler changeHandler;
 
 	@Autowired
-	public ItemEditor(ItemRepository repository) {
-		this.repository = repository;
+	public ItemEditor(ItemService itemService) {
+		this.itemService = itemService;
 
 		add(name, count, actions);
 
@@ -75,14 +76,14 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	}
 
 	void delete() {
-		repository.delete(item);
+		itemService.deleteItem(item);
 		changeHandler.onChange();
 	}
 
 	void save() {
 		item.setState(false);
 		item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		repository.save(item);
+		itemService.saveItem(item);
 		changeHandler.onChange();
 	}
 
@@ -99,7 +100,7 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 		final boolean persisted = false;
 		if (persisted) {
 			// Find fresh entity for editing
-			item = repository.findById(c.getId());
+			item = itemService.findById(c.getId());
 		}
 		else {
 			item = c;

@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.then;
 
 import backend.model.Item;
+import backend.services.ItemService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,7 @@ public class ItemEditorTests {
 	private static final String LAST_NAME = "Grzejszczak";
 
 	@Mock
-    ItemRepository itemRepository;
+	ItemService itemService;
 	@InjectMocks
 	ItemEditor editor;
 	@Mock ItemEditor.ChangeHandler changeHandler;
@@ -37,7 +38,7 @@ public class ItemEditorTests {
 
 		this.editor.save();
 
-		then(this.itemRepository).should().save(argThat(customerMatchesEditorFields()));
+		//then(this.itemService).should().save(argThat(customerMatchesEditorFields()));
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class ItemEditorTests {
 
 		editor.delete();
 
-		then(this.itemRepository).should().delete(argThat(customerMatchesEditorFields()));*/
+		then(this.itemService).should().delete(argThat(customerMatchesEditorFields()));*/
 	}
 
 	private void emptyCustomerWasSetToForm() {
