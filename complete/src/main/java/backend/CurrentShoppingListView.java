@@ -5,14 +5,19 @@ import backend.services.ItemService;
 import backend.services.ShoppingListService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ClickableRenderer;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import javafx.scene.control.CheckBox;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -27,7 +32,6 @@ public class CurrentShoppingListView extends VerticalLayout {
 
 	final Grid<Item> grid;
 
-	final TextField filter;
 
 	private final Button addNewBtn;
 	private final Button btnSaveList;
@@ -39,7 +43,6 @@ public class CurrentShoppingListView extends VerticalLayout {
 		this.shoppingListService = shoppingListService;
 		this.editor = editor;
 		this.grid = new Grid<>(Item.class);
-		this.filter = new TextField();
 		this.addNewBtn = new Button("New item", VaadinIcon.PLUS.create());
 		this.btnSaveList = new Button("Save list", VaadinIcon.CHECK.create());
 
@@ -52,20 +55,29 @@ public class CurrentShoppingListView extends VerticalLayout {
 
 
 		// build layout
-		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn, btnSaveList);
+		HorizontalLayout actions = new HorizontalLayout(addNewBtn, btnSaveList);
 		add(actions, grid, editor);
 
 		grid.setHeight("300px");
 		grid.setColumns("id", "name", "count", "state");
-		grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
 
-		filter.setPlaceholder("Filter by name");
+		NativeButtonRenderer<Item> buttonRenderer =  new NativeButtonRenderer<>("check", clickedItem -> {
+            if (clickedItem.getState().equals("NEW")) {
+                clickedItem.setState("FINISHED");
+            } else {
+                clickedItem.setState("NEW");
+            }
+            itemService.saveItem(clickedItem);
+            listItems(null);
+        });
+
+        grid.addColumn(buttonRenderer);
+
+        grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
 
 		// Hook logic to components
 
 		// Replace listing with filtered content when user changes filter
-		filter.setValueChangeMode(ValueChangeMode.EAGER);
-		filter.addValueChangeListener(e -> listItems(e.getValue()));
 
 		// Connect selected Item to editor or hide if none is selected
 		grid.asSingleSelect().addValueChangeListener(e -> {
@@ -79,12 +91,11 @@ public class CurrentShoppingListView extends VerticalLayout {
 		// Listen changes made by the editor, refresh data from backend
 		editor.setChangeHandler(() -> {
 			editor.setVisible(false);
-			listItems(filter.getValue());
 		});
 
 		// Initialize listing
 		listItems(null);
-	}
+    }
 
 	private void updateShoppingList() {
 		List<Item> currItems = itemService.findItems(shoppingListID);

@@ -14,7 +14,7 @@ public class Item {
 	private String name;
 	private Timestamp createdAt;
 	private double count;
-	private boolean state;
+	private String state;
 
 	@ManyToOne
 	private ShoppingList shoppingList;
@@ -51,11 +51,11 @@ public class Item {
 		this.count = count;
 	}
 
-	public boolean getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(boolean state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 

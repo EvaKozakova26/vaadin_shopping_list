@@ -86,7 +86,7 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	}
 
 	void save() {
-		item.setState(false);
+		item.setState("NEW");
 		item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		currentItems.add(item);
 		//itemService.saveItem(item);
