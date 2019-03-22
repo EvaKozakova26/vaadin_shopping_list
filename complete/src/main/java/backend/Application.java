@@ -23,13 +23,7 @@ public class Application {
 	public CommandLineRunner loadData(ItemService service) {
 		return (args) -> {
 			// save a couple of customers
-			Item item = new Item();
-			item.setName("madafaka");
-			item.setCount(1);
-			item.setCreatedAt(null);
-			item.setState(false);
 
-			service.saveItem(item);
 
 
 			/*// fetch all customers

@@ -23,34 +23,38 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MainViewTests.Config.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class MainViewTests {
+@SpringBootTest(classes = ItemsViewTests.Config.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
+public class ItemsViewTests {
 
 	@Autowired
 	backend.services.ItemService itemService;
+
+	@Autowired
+	backend.services.ShoppingListService shoppingListService;
+
 
 	VaadinRequest vaadinRequest = Mockito.mock(VaadinRequest.class);
 
 	ItemEditor editor;
 
-	MainView mainView;
+	ItemsView itemsView;
 
 	@Before
 	public void setup() {
 		this.editor = new ItemEditor(this.itemService);
-		this.mainView = new MainView(this.itemService, editor);
+		this.itemsView = new ItemsView(this.itemService, this.shoppingListService, editor);
 	}
 
 	@Test
 	public void shouldInitializeTheGridWithCustomerRepositoryData() {
 	/*	//int customerCount = (int) this.itemService.count();
 
-		then(mainView.grid.getColumns()).hasSize(3);
+		then(itemsView.grid.getColumns()).hasSize(3);
 		then(getCustomersInGrid()).hasSize(customerCount);*/
 	}
 
 	private List<Item> getCustomersInGrid() {
-		ListDataProvider<Item> ldp = (ListDataProvider) mainView.grid.getDataProvider();
+		ListDataProvider<Item> ldp = (ListDataProvider) itemsView.grid.getDataProvider();
 		return new ArrayList<>(ldp.getItems());
 	}
 
@@ -75,7 +79,7 @@ public class MainViewTests {
 
 	/*	this.itemService.save(new Item("Josh", "Long"));
 
-		mainView.listItems("Long");
+		itemsView.listItems("Long");
 
 		then(getCustomersInGrid()).hasSize(1);
 		then(getCustomersInGrid().get(getCustomersInGrid().size() - 1))
@@ -92,7 +96,7 @@ public class MainViewTests {
 	@Test
 	public void shouldMakeEditorVisible() {
 		Item first = getCustomersInGrid().get(0);
-		this.mainView.grid.select(first);
+		this.itemsView.grid.select(first);
 
 		then(this.editor.isVisible()).isTrue();
 	}

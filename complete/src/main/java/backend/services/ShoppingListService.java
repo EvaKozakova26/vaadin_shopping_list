@@ -1,11 +1,17 @@
 package backend.services;
 
+import backend.model.Item;
+import backend.model.ShoppingList;
+import backend.model.User;
+import backend.repository.ItemRepository;
 import backend.repository.ShoppingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,63 +22,76 @@ public class ShoppingListService {
 
     private ShoppingListRepository shoppingListRepository;
     private ItemService itemService;
+    private ItemRepository itemRepository;
 
     @Autowired
-    public ShoppingListService(ShoppingListRepository shoppingListRepository, ItemService itemService) {
+    public ShoppingListService(ShoppingListRepository shoppingListRepository, ItemService itemService, ItemRepository itemRepository) {
         this.shoppingListRepository = shoppingListRepository;
         this.itemService = itemService;
+        this.itemRepository = itemRepository;
     }
 
-   /* @Transactional
+    @Transactional
     public ShoppingList saveShoppingList(ShoppingList shoppingList) {
         shoppingListRepository.save(shoppingList);
         return shoppingList;
     }
 
     public List<ShoppingList> findItemsByUserId(User user) {
-        return shoppingListRepository.findAllByUSerId(user.getId());
+        return shoppingListRepository.findAllByUserId(user.getId());
+    }
+
+    public ShoppingList findShopListById(int id) {
+        return shoppingListRepository.findById(id);
     }
 
     @Transactional
     public void removeList(ShoppingList shoppingList) {
-        shoppingListRepository.removeShoppingList(shoppingList);
-    }*/
+        shoppingListRepository.delete(shoppingList);
+    }
+
+    public List<ShoppingList> findAllLists() {
+        return shoppingListRepository.findAll();
+    }
 
 
-  /*  public ShoppingList createList(User user, List<Item> items) {
+    public ShoppingList createList(User user, List<Item> items) {
+        items.forEach(item -> itemService.saveItem(item));
         ShoppingList shoppingList = new ShoppingList();
         List<Item> itemList = new ArrayList<>();
         shoppingList.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         shoppingList.setUser(user);
         saveShoppingList(shoppingList);
-        for (Item item : items) {
-            Optional<Item> dbItem = itemService.findById(item);
-            if (dbItem.isPresent()) {
-                dbItem.get().setShoppingList(shoppingList);
-                itemService.saveItem(dbItem.get());
-                itemList.add(dbItem.get());
-            }
-        }
+        updateItems(shoppingList, items, itemList);
         shoppingList.setItems(itemList);
         saveShoppingList(shoppingList);
         return shoppingList;
     }
 
-    public ShoppingList updateList(ShoppingListDto shoppingListDto, User user) {
-        ShoppingList shoppingList = shoppingListDto.getShoppingList();
+
+    public ShoppingList updateList(ShoppingList updatedShoppingList, List<Item> items, User user) {
         List<Item> itemList = new ArrayList<>();
 
-        for (Item item : shoppingListDto.getItems()) {
-            Optional<Item> dbItem = itemService.findById(item);
-            if (dbItem.isPresent()) {
-                dbItem.get().setShoppingList(shoppingList);
-                itemService.saveItem(dbItem.get());
-                itemList.add(dbItem.get());
+        items.forEach(item -> {
+            if (item.getId() == 0) {
+                itemService.saveItem(item);
             }
-        }
+        });
 
-        shoppingList.setItems(itemList);
-        shoppingList.setUser(user);
-        return saveShoppingList(shoppingList);
-    }*/
+        updateItems(updatedShoppingList, items, itemList);
+
+        updatedShoppingList.setItems(itemList);
+        updatedShoppingList.setUser(user);
+        return saveShoppingList(updatedShoppingList);
+    }
+
+    private void updateItems(ShoppingList updatedShoppingList, List<Item> items, List<Item> itemList) {
+        for (Item item : items) {
+            Item dbItem = itemService.findById(item.getId());
+            dbItem.setShoppingList(updatedShoppingList);
+            itemService.saveItem(dbItem);
+            itemList.add(dbItem);
+
+        }
+    }
 }

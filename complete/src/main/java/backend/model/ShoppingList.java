@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Indexed
 @Table(name = "shopping_lists", schema = "demo")
 public class ShoppingList {
 

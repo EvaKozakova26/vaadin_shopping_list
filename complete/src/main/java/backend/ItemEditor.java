@@ -1,6 +1,7 @@
 package backend;
 
 import backend.model.Item;
+import backend.model.ShoppingList;
 import backend.services.ItemService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
@@ -16,11 +17,14 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * A simple example to introduce building forms. As your real application is probably much
  * more complicated than this example, you could re-use this form in multiple places. This
- * example component is only used in MainView.
+ * example component is only used in ItemsView.
  * <p>
  * In a real world application you'll most likely using a common super class for all your
  * forms - less code, better UX.
@@ -40,6 +44,7 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	TextField name = new TextField("name");
 	NumberField count = new NumberField("count");
 
+	List<Item> currentItems = new ArrayList<>();
 
 	/* Action buttons */
 	// TODO why more code?
@@ -83,7 +88,8 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	void save() {
 		item.setState(false);
 		item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		itemService.saveItem(item);
+		currentItems.add(item);
+		//itemService.saveItem(item);
 		changeHandler.onChange();
 	}
 

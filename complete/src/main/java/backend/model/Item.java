@@ -58,5 +58,13 @@ public class Item {
 	public void setState(boolean state) {
 		this.state = state;
 	}
+
+	public ShoppingList getShoppingList() {
+		return shoppingList;
+	}
+
+	public void setShoppingList(ShoppingList shoppingList) {
+		this.shoppingList = shoppingList;
+	}
 }
 
