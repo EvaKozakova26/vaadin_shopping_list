@@ -22,4 +22,8 @@ public class ShoppingListsPresenter {
         return shoppingListService.findAllLists();
     }
 
+    public void deletelist(ShoppingList shoppingList) {
+        shoppingListService.removeList(shoppingList);
+    }
+
 }

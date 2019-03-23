@@ -7,6 +7,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 
 @Route("")
@@ -31,6 +32,14 @@ public class ShoppingListsView extends VerticalLayout {
 
         grid.setHeight("300px");
         grid.setColumns("id", "createdAt");
+
+        NativeButtonRenderer<ShoppingList> buttonRenderer =  new NativeButtonRenderer<>("delete", clickedItem -> {
+            shoppingListsPresenter.deletelist(clickedItem);
+            getShoppingLists();
+        });
+
+        grid.addColumn(buttonRenderer);
+
         grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
 
         grid.asSingleSelect().addValueChangeListener(e -> {
