@@ -1,10 +1,8 @@
 package backend;
 
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.BDDMockito.then;
-
-import backend.model.Item;
-import backend.services.ItemService;
+import application.view.ItemEditor;
+import application.model.Item;
+import application.services.ItemService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +20,7 @@ public class ItemEditorTests {
 	@Mock
 	ItemService itemService;
 	@InjectMocks
-	ItemEditor editor;
+    ItemEditor editor;
 	@Mock ItemEditor.ChangeHandler changeHandler;
 
 	@Before

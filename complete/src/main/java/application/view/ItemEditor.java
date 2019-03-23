@@ -1,9 +1,9 @@
-package backend;
+package application.view;
 
-import backend.model.Item;
-import backend.model.ShoppingList;
-import backend.presenter.ItemsViewPresenter;
-import backend.services.ItemService;
+import application.model.Item;
+import application.model.ShoppingList;
+import application.presenter.ItemsViewPresenter;
+import application.services.ItemService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * A simple example to introduce building forms. As your real application is probably much
@@ -42,8 +41,8 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	private Item item;
 
 	/* Fields to edit properties in Item entity */
-	TextField name = new TextField("name");
-	NumberField count = new NumberField("count");
+	public TextField name = new TextField("name");
+	public NumberField count = new NumberField("count");
 
 	List<Item> currentItems = new ArrayList<>();
 
@@ -86,7 +85,7 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 		changeHandler.onChange();
 	}
 
-	void createItem() {
+	public void createItem() {
 		item.setState("NEW");
 		item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		currentItems.add(item);

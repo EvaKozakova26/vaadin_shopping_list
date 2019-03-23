@@ -1,16 +1,14 @@
-package backend.services;
+package application.services;
 
-import backend.model.Item;
-import backend.model.ShoppingList;
-import backend.repository.ItemRepository;
+import application.model.Item;
+import application.model.ShoppingList;
+import application.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ItemService {

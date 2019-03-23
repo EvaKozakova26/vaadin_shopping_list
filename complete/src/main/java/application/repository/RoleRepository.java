@@ -1,6 +1,6 @@
-package backend.repository;
+package application.repository;
 
-import backend.model.Role;
+import application.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

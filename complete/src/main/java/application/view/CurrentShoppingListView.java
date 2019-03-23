@@ -1,8 +1,8 @@
-package backend;
+package application.view;
 
-import backend.model.Item;
-import backend.presenter.CurrentShoppingListPresenter;
-import backend.presenter.ItemsViewPresenter;
+import application.model.Item;
+import application.presenter.CurrentShoppingListPresenter;
+import application.presenter.ItemsViewPresenter;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;

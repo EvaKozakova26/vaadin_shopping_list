@@ -1,6 +1,4 @@
-package backend.model;
-
-import org.hibernate.validator.constraints.NotEmpty;
+package application.model;
 
 import javax.persistence.*;
 import java.util.List;

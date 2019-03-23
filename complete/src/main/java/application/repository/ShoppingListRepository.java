@@ -1,6 +1,6 @@
-package backend.repository;
+package application.repository;
 
-import backend.model.ShoppingList;
+import application.model.ShoppingList;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

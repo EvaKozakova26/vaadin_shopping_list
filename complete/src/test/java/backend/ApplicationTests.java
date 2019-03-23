@@ -1,6 +1,7 @@
 package backend;
 
-import backend.services.ItemService;
+import application.Application;
+import application.services.ItemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

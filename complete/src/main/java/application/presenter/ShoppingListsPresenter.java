@@ -1,7 +1,7 @@
-package backend.presenter;
+package application.presenter;
 
-import backend.model.ShoppingList;
-import backend.services.ShoppingListService;
+import application.model.ShoppingList;
+import application.services.ShoppingListService;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 

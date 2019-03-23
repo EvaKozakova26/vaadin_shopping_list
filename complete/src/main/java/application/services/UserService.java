@@ -1,14 +1,9 @@
-package backend.services;
+package application.services;
 
-import backend.repository.RoleRepository;
-import backend.repository.UserRepository;
+import application.repository.RoleRepository;
+import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.util.Optional;
 
 @Service
 public class UserService {

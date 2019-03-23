@@ -1,7 +1,6 @@
-package backend.model;
+package application.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

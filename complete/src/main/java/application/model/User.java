@@ -1,7 +1,6 @@
-package backend.model;
+package application.model;
 
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import backend.model.Item;
-import backend.presenter.ItemsViewPresenter;
-import backend.services.ItemService;
+import application.services.ShoppingListService;
+import application.view.ItemEditor;
+import application.view.ItemsView;
+import application.model.Item;
+import application.presenter.ItemsViewPresenter;
+import application.services.ItemService;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.server.VaadinRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +31,10 @@ import org.mockito.Mockito;
 public class ItemsViewTests {
 
 	@Autowired
-	backend.services.ItemService itemService;
+	ItemService itemService;
 
 	@Autowired
-	backend.services.ShoppingListService shoppingListService;
+	ShoppingListService shoppingListService;
 
 	@Autowired
 	ItemsViewPresenter itemsViewPresenter;

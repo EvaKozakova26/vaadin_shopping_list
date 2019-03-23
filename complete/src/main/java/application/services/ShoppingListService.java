@@ -1,21 +1,18 @@
-package backend.services;
+package application.services;
 
-import backend.model.Item;
-import backend.model.ShoppingList;
-import backend.model.User;
-import backend.repository.ItemRepository;
-import backend.repository.ShoppingListRepository;
+import application.model.Item;
+import application.model.ShoppingList;
+import application.model.User;
+import application.repository.ItemRepository;
+import application.repository.ShoppingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.management.Query;
-import javax.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ShoppingListService {
