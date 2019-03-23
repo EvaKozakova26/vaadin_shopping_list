@@ -36,7 +36,7 @@ public class ItemEditorTests {
 
 		this.editor.name.setValue(FIRST_NAME);
 
-		this.editor.save();
+		this.editor.createItem();
 
 		//then(this.itemService).should().save(argThat(customerMatchesEditorFields()));
 	}

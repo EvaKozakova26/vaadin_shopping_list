@@ -1,32 +1,26 @@
 package backend;
 
 import backend.model.Item;
-import backend.services.ItemService;
-import backend.services.ShoppingListService;
+import backend.presenter.CurrentShoppingListPresenter;
+import backend.presenter.ItemsViewPresenter;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.renderer.ClickableRenderer;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import javafx.scene.control.CheckBox;
-import org.springframework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @Route("getItems")
 public class CurrentShoppingListView extends VerticalLayout {
 
-	private final ItemService itemService;
-	private final ShoppingListService shoppingListService;
+	private final CurrentShoppingListPresenter currentShoppingListPresenter;
+	private final ItemsViewPresenter itemsViewPresenter;
 
 	private final ItemEditor editor;
 
@@ -38,9 +32,10 @@ public class CurrentShoppingListView extends VerticalLayout {
 
 	private int shoppingListID ;
 
-	public CurrentShoppingListView(ItemService itemService, ShoppingListService shoppingListService, ItemEditor editor) {
-		this.itemService = itemService;
-		this.shoppingListService = shoppingListService;
+    @Autowired
+	public CurrentShoppingListView(CurrentShoppingListPresenter currentShoppingListPresenter, ItemsViewPresenter itemsViewPresenter, ItemEditor editor) {
+        this.currentShoppingListPresenter = currentShoppingListPresenter;
+		this.itemsViewPresenter = itemsViewPresenter;
 		this.editor = editor;
 		this.grid = new Grid<>(Item.class);
 		this.addNewBtn = new Button("New item", VaadinIcon.PLUS.create());
@@ -67,8 +62,8 @@ public class CurrentShoppingListView extends VerticalLayout {
             } else {
                 clickedItem.setState("NEW");
             }
-            itemService.saveItem(clickedItem);
-            listItems(null);
+            itemsViewPresenter.saveItem(clickedItem);
+            listItems();
         });
 
         grid.addColumn(buttonRenderer);
@@ -80,10 +75,6 @@ public class CurrentShoppingListView extends VerticalLayout {
 		// Replace listing with filtered content when user changes filter
 
 		// Connect selected Item to editor or hide if none is selected
-		grid.asSingleSelect().addValueChangeListener(e -> {
-			editor.editCustomer(e.getValue());
-		});
-
 		// Instantiate and edit new Item the new button is clicked
 		addNewBtn.addClickListener(e -> editor.editCustomer(new Item()));
 		btnSaveList.addClickListener(e -> updateShoppingList());
@@ -91,28 +82,24 @@ public class CurrentShoppingListView extends VerticalLayout {
 		// Listen changes made by the editor, refresh data from backend
 		editor.setChangeHandler(() -> {
 			editor.setVisible(false);
+			listItems();
 		});
 
 		// Initialize listing
-		listItems(null);
+		listItems();
     }
 
 	private void updateShoppingList() {
-		List<Item> currItems = itemService.findItems(shoppingListID);
+		List<Item> currItems = currentShoppingListPresenter.getItemsByList(shoppingListID);
 		currItems.addAll(editor.currentItems);
-		shoppingListService.updateList(shoppingListService.findShopListById(shoppingListID), currItems, null);
+        currentShoppingListPresenter.onListUpdateListener(shoppingListID, currItems);
 	}
 
 	// tag::listItems[]
-	void listItems(String filterText) {
-		if (StringUtils.isEmpty(filterText)) {
-			List<Item> currItems = itemService.findItems(shoppingListID);
-			currItems.addAll(editor.currentItems);
-			grid.setItems(currItems);
-		}
-		else {
-			grid.setItems(itemService.findByName(filterText));
-		}
+	private void listItems() {
+    	List<Item> currItems = currentShoppingListPresenter.getItemsByList(shoppingListID);
+    	currItems.addAll(editor.currentItems);
+    	grid.setItems(currItems);
 	}
 	// end::listItems[]
 

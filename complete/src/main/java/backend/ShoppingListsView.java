@@ -1,29 +1,26 @@
 package backend;
 
 import backend.model.ShoppingList;
-import backend.services.ShoppingListService;
+import backend.presenter.ShoppingListsPresenter;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
-import org.springframework.util.StringUtils;
 
 @Route("")
 public class ShoppingListsView extends VerticalLayout {
 
-    private final ShoppingListService shoppingLisService;
+    private final ShoppingListsPresenter shoppingListsPresenter;
 
     final Grid<ShoppingList> grid;
 
     private final Button addNewBtn;
 
 
-    public ShoppingListsView(ShoppingListService shoppingListService) {
-        this.shoppingLisService = shoppingListService;
+    public ShoppingListsView(ShoppingListsPresenter shoppingListsPresenter) {
+        this.shoppingListsPresenter = shoppingListsPresenter;
       //  this.editor = editor;
         this.grid = new Grid<>(ShoppingList.class);
         this.addNewBtn = new Button("create new", VaadinIcon.PLUS.create());
@@ -44,14 +41,12 @@ public class ShoppingListsView extends VerticalLayout {
         addNewBtn.addClickListener(e -> addNewBtn.getUI().ifPresent(ui -> ui.navigate("createItems")));
 
         // Initialize listing
-        getShoppingList(null);
+        getShoppingLists();
     }
 
 
-    private void getShoppingList(String filterText) {
-        if (StringUtils.isEmpty(filterText)) {
-            grid.setItems(shoppingLisService.findAllLists());
-        }
+    private void getShoppingLists() {
+            grid.setItems(shoppingListsPresenter.getAllLists());
     }
 
 }

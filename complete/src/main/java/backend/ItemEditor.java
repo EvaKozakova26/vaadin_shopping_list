@@ -2,6 +2,7 @@ package backend;
 
 import backend.model.Item;
 import backend.model.ShoppingList;
+import backend.presenter.ItemsViewPresenter;
 import backend.services.ItemService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
@@ -33,7 +34,7 @@ import java.util.UUID;
 @UIScope
 public class ItemEditor extends VerticalLayout implements KeyNotifier {
 
-	private final ItemService itemService;
+	private final ItemsViewPresenter presenter;
 
 	/**
 	 * The currently edited item
@@ -57,8 +58,8 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 	private ChangeHandler changeHandler;
 
 	@Autowired
-	public ItemEditor(ItemService itemService) {
-		this.itemService = itemService;
+	public ItemEditor(ItemsViewPresenter presenter) {
+		this.presenter = presenter;
 
 		add(name, count, actions);
 
@@ -71,21 +72,21 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 		save.getElement().getThemeList().add("primary");
 		delete.getElement().getThemeList().add("error");
 
-		addKeyPressListener(Key.ENTER, e -> save());
+		addKeyPressListener(Key.ENTER, e -> createItem());
 
 		// wire action buttons to save, delete and reset
-		save.addClickListener(e -> save());
+		save.addClickListener(e -> createItem());
 		delete.addClickListener(e -> delete());
 		cancel.addClickListener(e -> editCustomer(item));
 		setVisible(false);
 	}
 
 	void delete() {
-		itemService.deleteItem(item);
+		presenter.deleteItem(item);
 		changeHandler.onChange();
 	}
 
-	void save() {
+	void createItem() {
 		item.setState("NEW");
 		item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 		currentItems.add(item);
@@ -103,16 +104,8 @@ public class ItemEditor extends VerticalLayout implements KeyNotifier {
 			return;
 		}
 		//TODO najit v databazi
-		final boolean persisted = false;
-		if (persisted) {
-			// Find fresh entity for editing
-			item = itemService.findById(c.getId());
-		}
-		else {
-			item = c;
-		}
-		cancel.setVisible(persisted);
 
+		item = c;
 		// Bind item properties to similarly named fields
 		// Could also use annotation or "manual binding" or programmatically
 		// moving values from fields to entities before saving

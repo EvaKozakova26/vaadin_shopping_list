@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import backend.model.Item;
+import backend.presenter.ItemsViewPresenter;
 import backend.services.ItemService;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.server.VaadinRequest;
@@ -32,6 +33,9 @@ public class ItemsViewTests {
 	@Autowired
 	backend.services.ShoppingListService shoppingListService;
 
+	@Autowired
+	ItemsViewPresenter itemsViewPresenter;
+
 
 	VaadinRequest vaadinRequest = Mockito.mock(VaadinRequest.class);
 
@@ -41,8 +45,8 @@ public class ItemsViewTests {
 
 	@Before
 	public void setup() {
-		this.editor = new ItemEditor(this.itemService);
-		this.itemsView = new ItemsView(this.itemService, this.shoppingListService, editor);
+		this.editor = new ItemEditor(this.itemsViewPresenter);
+		this.itemsView = new ItemsView(this.itemsViewPresenter, editor);
 	}
 
 	@Test
