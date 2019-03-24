@@ -1,7 +1,5 @@
 package application;
 
-import application.model.Item;
-import application.services.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

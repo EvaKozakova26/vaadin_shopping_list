@@ -65,6 +65,14 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-security</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
+
        <!-- ui components-->
         <dependency>
             <groupId>org.vaadin.spring.addons</groupId>
@@ -73,8 +81,21 @@
 
         <dependency>
             <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-login-flow</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-form-layout-flow</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
             <artifactId>vaadin-core</artifactId>
         </dependency>
+
+
     </dependencies>
 
     <!-- tag::bom[] -->
