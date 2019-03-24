@@ -6,6 +6,7 @@ import application.services.MyUserDetailService;
 import application.services.UserService;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @SpringComponent
 public class UserAuthPresenter {
@@ -59,5 +61,15 @@ public class UserAuthPresenter {
 
     public void logout() {
         SecurityContextHolder.clearContext();
+    }
+
+    public User getCurrentUser() {
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            System.out.println(myUserPrincipal.getUsername() + " logged" );
+            Optional<User> user = userService.findByUsername(myUserPrincipal.getUsername());
+            return user.orElse(null);
+        }
+        return null;
     }
 }

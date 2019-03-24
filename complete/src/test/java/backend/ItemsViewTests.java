@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import application.presenter.UserAuthPresenter;
 import application.services.ShoppingListService;
 import application.view.ItemEditor;
 import application.view.ItemsView;
@@ -38,6 +39,8 @@ public class ItemsViewTests {
 
 	@Autowired
 	ItemsViewPresenter itemsViewPresenter;
+	@Autowired
+	UserAuthPresenter userAuthPresenter;
 
 
 	VaadinRequest vaadinRequest = Mockito.mock(VaadinRequest.class);
@@ -49,7 +52,7 @@ public class ItemsViewTests {
 	@Before
 	public void setup() {
 		this.editor = new ItemEditor(this.itemsViewPresenter);
-		this.itemsView = new ItemsView(this.itemsViewPresenter, editor);
+		this.itemsView = new ItemsView(this.itemsViewPresenter, editor,  this.userAuthPresenter);
 	}
 
 	@Test

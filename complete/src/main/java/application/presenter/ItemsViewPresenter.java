@@ -25,7 +25,7 @@ public class ItemsViewPresenter {
     }
 
     public void saveShoppingList(User user, List<Item> items) {
-        shoppingListService.createList(null, items);
+        shoppingListService.createList(user, items);
     }
 
     public void deleteItem(Item item) {

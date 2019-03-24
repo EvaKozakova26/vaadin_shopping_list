@@ -7,6 +7,7 @@ import application.services.UserService;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,9 +29,12 @@ public class ShoppingListsPresenter {
         return shoppingListService.findAllLists();
     }
 
-    public List<ShoppingList> getAllListsByUser(String name) {
-        Optional<User> user = userService.findByUsername(name);
-        return user.map(shoppingListService::findItemsByUserId).orElse(null);
+    public List<ShoppingList> getAllListsByUser(User user) {
+        List<ShoppingList> shoppingLists = shoppingListService.findItemsByUserId(user);
+        if (shoppingLists != null) {
+            return shoppingLists;
+        }
+        return new ArrayList<>();
     }
 
     public void deletelist(ShoppingList shoppingList) {

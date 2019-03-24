@@ -35,7 +35,11 @@ public class ShoppingListService {
     }
 
     public List<ShoppingList> findItemsByUserId(User user) {
-        return shoppingListRepository.findAllByUserId(user.getId());
+        if (user != null) {
+            return shoppingListRepository.findAllByUserId(user.getId());
+        } else {
+            return null;
+        }
     }
 
     public ShoppingList findShopListById(int id) {

@@ -66,7 +66,10 @@ public class ShoppingListsView extends VerticalLayout {
 
         this.btnLogin = new Button("login", VaadinIcon.CHILD.create(), e -> loginOverlay.setOpened(true));
         this.btnRegister = new Button("register", VaadinIcon.CHILD.create(), e -> registerOverlay.setOpened(true));
-        this.btnLogout = new Button("logout", VaadinIcon.CHILD.create(), e -> userAuthPresenter.logout());
+        this.btnLogout = new Button("logout", VaadinIcon.CHILD.create(), e -> {
+            userAuthPresenter.logout();
+            grid.setItems(shoppingListsPresenter.getAllListsByUser(new User()));
+        });
         HorizontalLayout actions = new HorizontalLayout(addNewBtn, btnLogin, btnRegister, btnLogout);
         add(actions, grid);
         grid.setHeight("300px");
@@ -94,11 +97,6 @@ public class ShoppingListsView extends VerticalLayout {
 
 
     private void getShoppingLists() {
-        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            System.out.println(myUserPrincipal.getUsername() + " logged" );
-            grid.setItems(shoppingListsPresenter.getAllListsByUser(myUserPrincipal.getUsername()));
-        }
+        grid.setItems(shoppingListsPresenter.getAllListsByUser(userAuthPresenter.getCurrentUser()));
     }
-
 }
