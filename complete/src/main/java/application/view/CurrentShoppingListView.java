@@ -43,7 +43,7 @@ public class CurrentShoppingListView extends VerticalLayout {
 
 		shoppingListID = 0;
 		VaadinSession vaadinSession = UI.getCurrent().getSession();
-		if (vaadinSession != null) {
+		if (vaadinSession != null && UI.getCurrent().getSession() != null) {
 			shoppingListID = (int) UI.getCurrent().getSession().getAttribute("id");
 			UI.getCurrent().getSession().setAttribute("id", null);
 		}
