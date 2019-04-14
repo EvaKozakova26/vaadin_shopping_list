@@ -38,7 +38,7 @@ public class UserService {
         User user = new User();
         user.setName(name);
         user.setPassword(passwordEncoder.encode(password));
-  //      user.setRole(roleRepository.findByName("user"));
+        user.setRole(roleRepository.findByName("user"));
         userRepository.save(user);
         return new MyUserPrincipal(user);
     }
